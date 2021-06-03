@@ -12,6 +12,7 @@ Jinja2==3.0.1
 MarkupSafe==2.0.1
 marshmallow==3.12.1
 mongoengine==0.23.1
+mongomock==3.22.1
 packaging==20.9
 pluggy==0.13.1
 py==1.10.0
