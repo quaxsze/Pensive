@@ -2,15 +2,17 @@ import pytest
 from app import create_app
 
 
+class TestConfig():
+    TESTING = True
+    SECRET_KEY = 'you-will-never-guess'
+    MONGODB_DB = 'pensive_test'
+    MONGODB_HOST = 'mongomock://localhost'
+
+
 @pytest.fixture
 def app():
     """Create and configure a new app instance for each test."""
-    # create the app with common test config
-    app = create_app({
-        "MONGODB_HOST": 'mongodb://localhost:27017/pensive_test',
-        "MONGODB_CONNECT": False,
-        "TESTING": True
-        })
+    app = create_app(TestConfig)
     return app
 
 
