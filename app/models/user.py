@@ -9,13 +9,13 @@ class User(db.Document):
     username = db.StringField(max_length=120, required=True)
     password_hash = db.StringField(max_length=120, required=True)
 
-    def set_password(self, password):
+    def set_password(self, password: str) -> None:
         self.password_hash = generate_password_hash(password)
 
-    def check_password(self, password):
+    def check_password(self, password: str) -> bool:
         return check_password_hash(self.password_hash, password)
 
-    def encode_auth_token(self, user_id):
+    def encode_auth_token(self, user_id: str) -> str:
         """
         Generates the Auth Token
         :return: string
@@ -32,7 +32,7 @@ class User(db.Document):
         )
 
     @staticmethod
-    def decode_auth_token(auth_token):
+    def decode_auth_token(auth_token: str) -> str:
         """
         Validates the auth token
         :param auth_token:

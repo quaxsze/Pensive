@@ -2,6 +2,7 @@ from flask import Blueprint, request
 from mongoengine.errors import ValidationError as MongoValidationError
 from marshmallow import Schema, fields, post_load, ValidationError
 from app.models.post import Post
+from app.utils.decorators import login_required
 from app.utils.response import bad_request, server_error, successful, created
 
 bp = Blueprint('post', __name__)
@@ -19,6 +20,7 @@ class PostSchema(Schema):
 
 
 @bp.route('/posts', methods=['GET'])
+@login_required
 def get_posts_list():
     try:
         posts = Post.objects()
@@ -31,6 +33,7 @@ def get_posts_list():
 
 
 @bp.route('/posts', methods=['POST'])
+@login_required
 def create_post():
     data = request.get_json() or {}
 
@@ -47,6 +50,7 @@ def create_post():
 
 
 @bp.route('/posts/<post_id>', methods=['GET'])
+@login_required
 def get_post(post_id):
     try:
         post = Post.objects.get_or_404(id=post_id)

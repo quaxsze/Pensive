@@ -1,4 +1,4 @@
-from flask import Blueprint, request, g
+from flask import Blueprint, request
 from marshmallow import Schema, fields, ValidationError
 
 from app.models.user import User
@@ -31,8 +31,8 @@ def login_user():
         # fetch the user data
         user = User.objects(username=data['username']).first()
         if user and user.check_password(data['password']):
-            auth_token = user.encode_auth_token(user.id)
-            return created({'token': auth_token.decode()})
+            auth_token = user.encode_auth_token(str(user.id))
+            return successful({'token': auth_token})
         else:
             return unauthorized('Bad credentials')
     except Exception as err:
@@ -41,5 +41,5 @@ def login_user():
 
 @bp.route('/user', methods=['GET'])
 @login_required
-def retrieve_user():
-    return successful({'user': UserSchema().dump(g.user)})
+def retrieve_user(user):
+    return successful({'user': UserSchema().dump(user)})
