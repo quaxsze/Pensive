@@ -29,7 +29,7 @@ def get_posts_list() -> Response:
         else:
             return successful({'posts': []})
     except Exception as err:
-        return server_error(str(err))
+        return server_error()
 
 
 @bp.route('/posts', methods=['POST'])
@@ -46,7 +46,7 @@ def create_post() -> Response:
         new_post.save()
         return created({'post': new_post.id})
     except Exception as err:
-        return server_error(str(err))
+        return server_error()
 
 
 @bp.route('/posts/<post_id>', methods=['GET'])
@@ -77,7 +77,7 @@ def update_post(post_id: str) -> Response:
         post.reload()
         return successful({'post': PostSchema().dump(post)})
     except Exception as err:
-        return server_error(str(err))
+        return server_error()
 
 
 @bp.route('/search', methods=['GET'])

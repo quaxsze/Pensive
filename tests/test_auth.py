@@ -5,7 +5,7 @@ def test_login(runner, auth):
     result = runner.invoke(
         create_user, ['test', 'test'])
     assert 'Creating user test' in result.output
-    
+
     response = auth.login()
     assert response.status_code == 200
     assert 'token' in response.json['data']

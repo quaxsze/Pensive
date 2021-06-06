@@ -4,7 +4,7 @@ from marshmallow import Schema, fields, ValidationError
 
 from app.models.user import User
 from app.utils.decorators import login_required
-from app.utils.response import bad_request, server_error, unauthorized, successful, created
+from app.utils.response import bad_request, server_error, unauthorized, successful
 
 bp = Blueprint('auth', __name__)
 
@@ -37,7 +37,7 @@ def login_user() -> Response:
         else:
             return unauthorized('Bad credentials')
     except Exception as err:
-        return server_error(str(err))
+        return server_error()
 
 
 @bp.route('/user', methods=['GET'])

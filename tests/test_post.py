@@ -43,9 +43,9 @@ def test_create_post(client, runner, auth):
     token = response.json['data']['token']
 
     response = client.post('/posts', json={
-        'title':'test title',
-        'content':'test content',
-        'remote_url':'http://test.local'
+        'title': 'test title',
+        'content': 'test content',
+        'remote_url': 'http://test.local'
     }, headers={'Authorization': f'Token {token}'})
     assert response.status_code == 201
     assert 'post' in response.json['data']

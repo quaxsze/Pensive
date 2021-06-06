@@ -1,7 +1,6 @@
 import json
 from flask import jsonify
 from bson import ObjectId
-from werkzeug.http import HTTP_STATUS_CODES
 
 
 class CustomJSONEncoder(json.JSONEncoder):
@@ -56,5 +55,5 @@ def conflict(message):
     return json_error(409, message)
 
 
-def server_error(message):
-    return json_error(500, message)
+def server_error():
+    return json_error(500, 'Internal Server Error')
