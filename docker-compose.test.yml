@@ -5,3 +5,9 @@ services:
         tmpfs: /data/db/
         ports:
           - "27017:27017"
+
+    search_test:
+        image: elasticsearch:7.13
+        tmpfs: /usr/share/elasticsearch/data
+        ports:
+          - "9200:9200"
