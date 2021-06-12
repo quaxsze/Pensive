@@ -10,7 +10,6 @@ class TestConfig():
     SECRET_KEY = 'you-will-never-guess'
     MONGODB_DB = 'test'
     MONGODB_HOST = 'mongomock://localhost'
-    ELASTICSEARCH_URL = 'http://localhost:9200'
     POSTS_PER_PAGE = 20
 
 
