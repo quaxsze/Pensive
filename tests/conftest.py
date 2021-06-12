@@ -1,5 +1,4 @@
 import pytest
-from elasticsearch.exceptions import NotFoundError
 from app import create_app, db
 from app.cli import create_user, create_post
 from app.models.post import Post
@@ -10,6 +9,7 @@ class TestConfig():
     SECRET_KEY = 'you-will-never-guess'
     MONGODB_DB = 'test'
     MONGODB_HOST = 'mongomock://localhost'
+    ELASTICSEARCH_URL = None
     POSTS_PER_PAGE = 20
 
 
