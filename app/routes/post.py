@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, current_app, url_for
 from werkzeug.wrappers import Response
 from mongoengine.errors import ValidationError as MongoValidationError
 from marshmallow import Schema, fields, post_load, ValidationError
@@ -80,8 +80,24 @@ def update_post(post_id: str) -> Response:
         return server_error()
 
 
-@bp.route('/search', methods=['GET'])
+@bp.route('/posts/search', methods=['GET'])
 def search_posts() -> Response:
     query_text: str = request.args.get('q')
-    page_size: int = int(request.args.get('page_size'))
     page: int = int(request.args.get('page'))
+
+    try:
+        results, total = Post.search(
+            query_text, page, current_app.config['POSTS_PER_PAGE'])
+        next_url = url_for('post.search_posts', q=query_text, page=page + 1) \
+            if total > page * current_app.config['POSTS_PER_PAGE'] else None
+        prev_url = url_for('post.search_posts', q=query_text, page=page - 1) \
+            if page > 1 else None
+        return successful({
+            'total': total,
+            'next': next_url,
+            'previous': prev_url,
+            'posts': PostSchema().dump(results, many=True)
+            })
+    except Exception as err:
+        print(str(err))
+        return server_error()

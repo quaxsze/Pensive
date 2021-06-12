@@ -21,7 +21,6 @@ def test_retrieve_user(client, runner, auth):
     token = response.json['data']['token']
 
     response = client.get('auth/user', headers={'Authorization': f'Token {token}'})
-    print(response.json['data'])
     assert response.status_code == 200
     user = response.json['data']['user']
     assert user['username'] == 'test'
