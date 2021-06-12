@@ -1,6 +1,6 @@
 from functools import wraps
 import bson
-from flask import request
+from flask import request, g
 
 from app.models.user import User
 from app.utils.response import unauthorized, forbidden
@@ -26,6 +26,7 @@ def login_required(f):
         user = User.objects(id=resp).first()
         if not user:
             return unauthorized('Bad credentials')
+        g.user = user
 
-        return f(user, *args, **kwargs)
+        return f(*args, **kwargs)
     return decorated_function

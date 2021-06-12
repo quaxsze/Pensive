@@ -1,9 +1,10 @@
-from flask import Blueprint, request
+from werkzeug.wrappers import Response
+from flask import Blueprint, request, g
 from marshmallow import Schema, fields, ValidationError
 
 from app.models.user import User
 from app.utils.decorators import login_required
-from app.utils.response import bad_request, server_error, unauthorized, successful, created
+from app.utils.response import bad_request, server_error, unauthorized, successful
 
 bp = Blueprint('auth', __name__)
 
@@ -19,7 +20,7 @@ class LoginSchema(Schema):
 
 
 @bp.route('/login', methods=['POST'])
-def login_user():
+def login_user() -> Response:
     data = request.get_json() or {}
 
     try:
@@ -36,10 +37,10 @@ def login_user():
         else:
             return unauthorized('Bad credentials')
     except Exception as err:
-        return server_error(str(err))
+        return server_error()
 
 
 @bp.route('/user', methods=['GET'])
 @login_required
-def retrieve_user(user):
-    return successful({'user': UserSchema().dump(user)})
+def retrieve_user() -> Response:
+    return successful({'user': UserSchema().dump(g.user)})
